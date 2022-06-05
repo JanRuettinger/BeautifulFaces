@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -36,7 +37,7 @@ export async function sendMatchRequest(matchRequest: MatchRequestType) {
             }
         );
         console.log('response: ', reponse);
-        return true;
+        return reponse.data;
     } catch (error) {
         console.log(error);
         throw error;

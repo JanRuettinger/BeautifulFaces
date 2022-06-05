@@ -109,14 +109,18 @@ function MatchingScreen({ setScreenState }: propType) {
                                         ? 'text-green-700'
                                         : 'text-red-700'
                                 } rounded-md border-2 border-blue-400 text-xl font-bold mt-2`}
-                                onClick={() => {
-                                    sendMatchRequest({
+                                onClick={async () => {
+                                    const data = await sendMatchRequest({
                                         peerID: myId as string,
                                         walletAddress: account
                                             ? account.address!
                                             : '123',
                                         category: selectedMatchingCategory,
                                     });
+                                    if (data) {
+                                        setFriendId(data.peerID);
+                                        videoCall();
+                                    }
                                     setSelectedMatchingCategory(x.id);
                                 }}
                             >
@@ -127,26 +131,14 @@ function MatchingScreen({ setScreenState }: propType) {
                 </div>
             </div>
             <div className="w-4/5">
-                <label>My ID: {myId}</label>
-                <br />
-                <label>Friend ID:</label>
-                <input
-                    className="border-2 p-2 border-black"
-                    type="text"
-                    value={friendId}
-                    onChange={(e) => {
-                        setFriendId(e.target.value);
-                    }}
-                />{' '}
-                <br />
-                <button
+                {/* <button
                     className="ml-2 border-2 border-black p-2"
                     onClick={videoCall}
                 >
                     Start Video Call
                 </button>
                 <br />
-                <br />
+                <br /> */}
                 <div>
                     <video ref={(ref) => (my.myVideo = ref)} />
                 </div>
