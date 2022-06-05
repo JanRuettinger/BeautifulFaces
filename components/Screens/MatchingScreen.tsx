@@ -94,7 +94,7 @@ function MatchingScreen({ setScreenState }: propType) {
 
     return (
         <div className="flex flex-row">
-            <div className="w-1/5">
+            <div className="w-1/5 p-2">
                 <div className="flex flex-col justify-center">
                     <div className="text-center text-2xl font-semibold mb-4">
                         With what kind of person do you want to be matched?
@@ -127,6 +127,19 @@ function MatchingScreen({ setScreenState }: propType) {
                                 {x.name}
                             </button>
                         ))}
+                    </div>
+                </div>
+                <div className="flex flex-col mx-auto justify-center mt-24">
+                    <div className="text-center text-2xl font-medium">
+                        If you both enjoyed the conversation and want to store
+                        it forever, you can click below and take a screenshot of
+                        your beautiful faces. A NFT will be minted an airdropped
+                        to both of you.
+                    </div>
+                    <div className="flex flex-col justify-center mt-4">
+                        <button className="rounded-md p-4 bg-pink-400 text-white text-2xl font-medium mx-auto">
+                            Click here!
+                        </button>
                     </div>
                 </div>
             </div>
