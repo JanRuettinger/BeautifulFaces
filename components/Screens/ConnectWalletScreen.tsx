@@ -22,7 +22,13 @@ function ConnectWalletScreen({ setScreenState }: propType) {
 
     return (
         <div className="w-3/5 mx-auto flex flex-col justify-center">
-            <div className="text-center text-2xl font-semibold mb-4">
+            <div className="text-center text-2xl font-semibold my-12 w-2/5 mx-auto">
+                Connect with like-minded people from the web3 community. Chat
+                one-on-one with someone who is active in the same communities as
+                you, or degen with someone random.
+            </div>
+
+            <div className="text-center text-3xl font-semibold mb-4">
                 Connect your wallet:
             </div>
             <div className="flex flex-col mx-auto">
