@@ -115,7 +115,7 @@ function MatchingScreen({ setScreenState }: propType) {
                                         walletAddress: account
                                             ? account.address!
                                             : '123',
-                                        category: selectedMatchingCategory,
+                                        category: x.id,
                                     });
                                     if (data) {
                                         setFriendId(data.peerID);
