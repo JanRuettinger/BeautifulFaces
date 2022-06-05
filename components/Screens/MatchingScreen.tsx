@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Peer from 'peerjs';
 
 type propType = {
     setScreenState: React.Dispatch<React.SetStateAction<number>>;
@@ -13,6 +14,66 @@ const options = [
 function MatchingScreen({ setScreenState }: propType) {
     const [selectedMatchingCategory, setSelectedMatchingCategory] =
         useState<number>(0);
+
+    const [myId, setMyId] = useState<string>();
+    const [friendId, setFriendId] = useState<string>();
+    const [peer, setPeer] = useState<Peer>();
+    const componentRef = useRef<any>({});
+    const { current: my } = componentRef;
+
+    useEffect(() => {
+        import('peerjs').then(({ default: Peer }) => {
+            const peer = new Peer('', {
+                // host: 'localhost',
+                // port: '3001',
+                path: '/',
+            });
+
+            peer.on('open', (id) => {
+                setMyId(id);
+                setPeer(peer);
+            });
+
+            peer.on('call', (call) => {
+                var getUserMedia =
+                    navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia;
+
+                getUserMedia({ video: true, audio: true }, (stream) => {
+                    my.myVideo.srcObject = stream;
+                    my.myVideo.play();
+
+                    call.answer(stream);
+
+                    call.on('stream', (remoteStream) => {
+                        my.friendVideo.srcObject = remoteStream;
+                        my.friendVideo.play();
+                    });
+                });
+            });
+        });
+    }, [my.friendVideo, my.myVideo]);
+
+    const videoCall = () => {
+        var getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia;
+
+        getUserMedia({ video: true, audio: true }, (stream) => {
+            my.myVideo.srcObject = stream;
+            my.myVideo.play();
+
+            const call = peer!.call(friendId!, stream);
+
+            call.on('stream', (remoteStream) => {
+                my.friendVideo.srcObject = remoteStream;
+                my.friendVideo.play();
+            });
+        });
+    };
+
     return (
         <div className="flex flex-row">
             <div className="w-1/5">
@@ -38,9 +99,31 @@ function MatchingScreen({ setScreenState }: propType) {
                 </div>
             </div>
             <div className="w-4/5">
-                <div>{/* <video ref={(ref) => (this.myVideo = ref)} /> */}</div>
+                <label>My ID: {myId}</label>
+                <br />
+                <label>Friend ID:</label>
+                <input
+                    className="border-2 p-2 border-black"
+                    type="text"
+                    value={friendId}
+                    onChange={(e) => {
+                        setFriendId(e.target.value);
+                    }}
+                />{' '}
+                <br />
+                <button
+                    className="ml-2 border-2 border-black p-2"
+                    onClick={videoCall}
+                >
+                    Start Video Call
+                </button>
+                <br />
+                <br />
                 <div>
-                    {/* <video ref={(ref) => (this.friendVideo = ref)} /> */}
+                    <video ref={(ref) => (my.myVideo = ref)} />
+                </div>
+                <div>
+                    <video ref={(ref) => (my.friendVideo = ref)} />
                 </div>
             </div>
         </div>
