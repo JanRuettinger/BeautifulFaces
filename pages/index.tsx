@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useAccount } from 'wagmi';
 import { useState } from 'react';
 import ConnectWalletScreen from '../components/Screens/ConnectWalletScreen';
-import OptionsScreen from '../components/Screens/OptionsScreen';
+import MatchingScreen from '../components/Screens/MatchingScreen';
 
 const Home: NextPage = () => {
     const { data: account } = useAccount();
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         if (screenState == 0) {
             return <ConnectWalletScreen setScreenState={setScreenState} />;
         } else if (screenState == 1) {
-            return <OptionsScreen setScreenState={setScreenState} />;
+            return <MatchingScreen setScreenState={setScreenState} />;
         } else {
             return <div>Error</div>;
         }
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
                 </div>
             </header>
 
-            <main className="flex-grow">
+            <main className="flex-grow mt-6">
                 <Screen />
             </main>
 
