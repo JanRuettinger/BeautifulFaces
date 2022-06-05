@@ -40,38 +40,51 @@ function MatchingScreen({ setScreenState }: propType) {
                     navigator.webkitGetUserMedia ||
                     navigator.mozGetUserMedia;
 
-                getUserMedia({ video: true, audio: true }, (stream) => {
-                    my.myVideo.srcObject = stream;
-                    my.myVideo.play();
+                getUserMedia(
+                    { video: true, audio: true },
+                    (stream) => {
+                        my.myVideo.srcObject = stream;
+                        my.myVideo.play();
 
-                    call.answer(stream);
+                        call.answer(stream);
 
-                    call.on('stream', (remoteStream) => {
-                        my.friendVideo.srcObject = remoteStream;
-                        my.friendVideo.play();
-                    });
-                });
+                        call.on('stream', (remoteStream) => {
+                            my.friendVideo.srcObject = remoteStream;
+                            my.friendVideo.play();
+                        });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             });
         });
     }, [my.friendVideo, my.myVideo]);
 
     const videoCall = () => {
+        // @ts-ignore
         var getUserMedia =
             navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia;
 
-        getUserMedia({ video: true, audio: true }, (stream) => {
-            my.myVideo.srcObject = stream;
-            my.myVideo.play();
+        getUserMedia(
+            { video: true, audio: true },
+            (stream) => {
+                my.myVideo.srcObject = stream;
+                my.myVideo.play();
 
-            const call = peer!.call(friendId!, stream);
+                const call = peer!.call(friendId!, stream);
 
-            call.on('stream', (remoteStream) => {
-                my.friendVideo.srcObject = remoteStream;
-                my.friendVideo.play();
-            });
-        });
+                call.on('stream', (remoteStream) => {
+                    my.friendVideo.srcObject = remoteStream;
+                    my.friendVideo.play();
+                });
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     };
 
     return (
