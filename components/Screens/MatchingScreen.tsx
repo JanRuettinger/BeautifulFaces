@@ -10,7 +10,7 @@ type propType = {
 
 const options = [
     { name: 'Random', id: 0 },
-    { name: 'Decentralland', id: 1 },
+    { name: 'Decentraland', id: 1 },
     { name: 'SuperRare', id: 2 },
 ];
 
