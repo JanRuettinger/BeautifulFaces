@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Peer from 'peerjs';
+import { sendMatchRequest } from '../../api';
+import { getAccount } from '@wagmi/core';
+import { useAccount } from 'wagmi';
 
 type propType = {
     setScreenState: React.Dispatch<React.SetStateAction<number>>;
@@ -14,6 +17,8 @@ const options = [
 function MatchingScreen({ setScreenState }: propType) {
     const [selectedMatchingCategory, setSelectedMatchingCategory] =
         useState<number>(0);
+
+    const { data: account } = useAccount();
 
     const [myId, setMyId] = useState<string>();
     const [friendId, setFriendId] = useState<string>();
@@ -104,6 +109,16 @@ function MatchingScreen({ setScreenState }: propType) {
                                         ? 'text-green-700'
                                         : 'text-red-700'
                                 } rounded-md border-2 border-blue-400 text-xl font-bold mt-2`}
+                                onClick={() => {
+                                    sendMatchRequest({
+                                        peerID: myId as string,
+                                        walletAddress: account
+                                            ? account.address!
+                                            : '123',
+                                        category: selectedMatchingCategory,
+                                    });
+                                    setSelectedMatchingCategory(x.id);
+                                }}
                             >
                                 {x.name}
                             </button>
