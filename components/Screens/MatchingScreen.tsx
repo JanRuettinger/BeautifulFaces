@@ -115,13 +115,13 @@ function MatchingScreen({ setScreenState }: propType) {
                                         walletAddress: account
                                             ? account.address!
                                             : '123',
-                                        category: x.id,
+                                        category: 2,
                                     });
                                     if (data) {
                                         setFriendId(data.peerID);
                                         videoCall();
                                     }
-                                    setSelectedMatchingCategory(x.id);
+                                    setSelectedMatchingCategory(2);
                                 }}
                             >
                                 {x.name}
